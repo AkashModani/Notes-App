@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.btn2 {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: Red;
+  }
+  
+.btn2:hover {
+  background-color: Green;
+}
+
+.Large {
+    font-size: 16pt;
+    height: 150px;
+}
+
+
+
+
+
+
+</style>
+<body ng-app="myApp" ng-controller="todoCtrl">
+
+<h2>Notes App: <span id="datetime"></span></h2>
+<script>
+var dt = new Date();
+document.getElementById("datetime").innerHTML = (("0"+dt.getDate()).slice(-2)) +"."+ (("0"+(dt.getMonth()+1)).slice(-2)) +"."+ (dt.getFullYear()) +" "+ (("0"+dt.getHours()).slice(-2)) +":"+ (("0"+dt.getMinutes()).slice(-2));
+</script>
+
+
+
+
+
+
+<button class="btn" ng-click="remove()"><i class="fa fa-trash"></i>
+Trash Note</button> 
+<br> <br>
+ <form ng-submit="todoAdd()"> <button class="btn2"  ><i class="fa fa-th-list"></i> Add Note</button> 
+
+
+
+<br><br> <br>
+    <textarea rows="8" cols="30" class="Large"  ng-model="todoInput" placeholder="New Note"> </textarea>
+    
+</form>
+
+<br> <br>
+
+
+
+<div ng-repeat="x in todoList">
+    <input type="checkbox" ng-model="x.done"> <span ng-bind="x.todoText"></span>
+</div>
+
+
+
+<script>
+var app = angular.module('myApp', []); 
+app.controller('todoCtrl', function($scope) {
+    $scope.todoList = [{todoText:'Clean House', done:false}];
+
+    $scope.todoAdd = function() {
+        $scope.todoList.push({todoText:$scope.todoInput, done:false});
+        $scope.todoInput = "";
+    };
+
+    $scope.remove = function() {
+        var oldList = $scope.todoList;
+        $scope.todoList = [];
+        angular.forEach(oldList, function(x) {
+            if (!x.done) $scope.todoList.push(x);
+        });
+    };
+});
+
+
+</script>
+
+</body>
+</html>
